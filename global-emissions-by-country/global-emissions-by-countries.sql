@@ -1,12 +1,3 @@
-# create table for the database
-create schema myproject;
-use myproject;
-create table `emissions` (
-	id int primary key,
-    country text,
-	year int,
-	rate float);
-
 # look over the dataset
 select * from emissions;
 
