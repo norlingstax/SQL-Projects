@@ -1,23 +1,8 @@
-use myproject;
-create table `gdp` (
-	id int primary key,
-    country_name text,
-	country_code text,
-	year int,
-    gdp_value decimal(18, 2));
-    
-use myproject;
-create table `country` (
-	country_code text,
-    region text,
-	income_group text,
-    PRIMARY KEY (country_code(768)));
-
-# look over the datasets
+-- look over the datasets
 select * from gdp;
 select * from country;
 
-# total gdp of the world 1960-2022
+-- total gdp of the world 1960-2022
 select 
     year,
     gdp_value
@@ -25,7 +10,7 @@ from gdp
 where country_name = 'World'
 order by year asc;
 
-# top 10 countries according to their gdp in 2000-2022
+-- top 10 countries according to their gdp in 2000-2022
 select 
 	rank() over(order by sum(gdp_value) desc) as 'rank',
 	country_name,
@@ -36,7 +21,7 @@ group by country_name
 order by gdp_total desc
 limit 10;
 
-# europian countries' gdp in 2022, descending order
+-- europian countries' gdp in 2022, descending order
 select 
 	rank() over(order by gdp_value desc) as 'rank',
 	country_name, 
@@ -49,7 +34,7 @@ where year = '2022'
         where continent = 'Europe')
 order by gdp_value desc;
 
-# countries with gdp higher than average in the period of 2000-2022
+-- countries with gdp higher than average in the period of 2000-2022
 select 
 	country_name,
     sum(gdp_value) as gdp_total
@@ -74,7 +59,7 @@ where year > 2009
 group by mg.country_name, wc.governmentform, wc.population, wc.lifeexpectancy
 order by sum(mg.gdp_value) desc;
 
-# list of african countries ordered by gdp in 2022 with a difference from average among them for each country
+-- list of african countries ordered by gdp in 2022 with a difference from average among them for each country
 with africa as (
     select distinct code
     from world.country
